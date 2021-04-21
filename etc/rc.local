@@ -11,6 +11,8 @@
 #
 # By default this script does nothing.
 
+/home/pi/src/gadget_set/gadget_set
+
 [ -d /etc/boot.d ] && run-parts /etc/boot.d
 
 exit 0
