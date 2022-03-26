@@ -1,0 +1,46 @@
+#!/bin/bash
+cd /sys/kernel/config/usb_gadget/
+mkdir -p isticktoit
+cd isticktoit
+echo 0x1d6b > idVendor # Linux Foundation
+# echo 0x0525 > idVendor # Netchip Technology, Inc.
+echo 0x0104 > idProduct # Multifunction Composite Gadget
+#echo 0xa4a2 > idProduct # Linux-USB Ethernet/RNDIS Gadget
+echo 0x0100 > bcdDevice # v1.0.0
+echo 0x0200 > bcdUSB # USB2
+mkdir -p strings/0x409
+echo "fedcba9876543211" > strings/0x409/serialnumber
+echo "dyne.org" > strings/0x409/manufacturer
+echo "ReflowOS USB Device" > strings/0x409/product
+mkdir -p configs/c.1/strings/0x409
+echo "Config 1: ECM network" > configs/c.1/strings/0x409/configuration
+# echo "Config 1: RNDIS network" > configs/c.1/strings/0x409/configuration
+echo 250 > configs/c.1/MaxPower
+# Add functions here
+# see gadget configurations below
+
+# Add Ethernet Function
+mkdir -p functions/ecm.usb0
+# mkdir -p functions/rndis.usb0
+# first byte of address must be even
+# HOST="48:6f:73:74:50:43" # "HostPC"
+# SELF="42:61:64:55:53:42" # "BadUSB"
+# echo $HOST > functions/ecm.usb0/host_addr
+# echo $SELF > functions/ecm.usb0/dev_addr
+ln -s functions/ecm.usb0 configs/c.1/
+# ln -s functions/rndis.usb0 configs/c.1/
+
+# Add Mass Storage Function
+FILE=/home/pi/usb_storage/usb_storage.img
+mkdir -p ${FILE/img/d}
+mount -o loop,ro, -t vfat $FILE ${FILE/img/d} # FOR IMAGE CREATED WITH DD
+mkdir -p functions/mass_storage.usb0
+echo 1 > functions/mass_storage.usb0/stall
+echo 0 > functions/mass_storage.usb0/lun.0/cdrom
+echo 0 > functions/mass_storage.usb0/lun.0/ro
+echo 0 > functions/mass_storage.usb0/lun.0/nofua
+echo $FILE > functions/mass_storage.usb0/lun.0/file
+ln -s functions/mass_storage.usb0 configs/c.1/
+
+# End functions
+ls /sys/class/udc > UDC
