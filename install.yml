@@ -63,3 +63,21 @@
        line: "dtoverlay=dwc2"
      when: check.found == 0
 
+   - name: Check if libcomposite module is configured in /etc/modules
+     become: yes
+     become_user: root
+     lineinfile:
+       state: absent
+       path: "/etc/modules"
+       regexp: "^libcomposite"
+     check_mode: true
+     changed_when: false # This just makes things look prettier in the logs
+     register: check
+   
+   - name: Add libcomposite if not present
+     lineinfile:
+       state: present
+       path: "/etc/modules"
+       line: "libcomposite"
+     when: check.found == 0
+
