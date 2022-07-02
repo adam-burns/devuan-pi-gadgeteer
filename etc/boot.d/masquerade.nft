@@ -1,0 +1,6 @@
+#!/usr/sbin/nft -f
+add table nat
+add chain nat postrouting { type nat hook postrouting priority 100 ; }
+add rule nat postrouting oifname eth0  masquerade
+add rule nat postrouting oifname wlan0 masquerade
+
