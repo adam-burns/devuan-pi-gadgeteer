@@ -24,6 +24,12 @@
        src: etc/dnsmasq.d/usb.conf
        dest: /etc/dnsmasq.d/usb.conf
 
+   - name enable dnsmasq
+     sysvinit:
+       name: dnsmasq
+       state: started
+       enabled: yes
+
    - name: install htop
      package:
        name: htop
