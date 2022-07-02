@@ -117,7 +117,7 @@ GADGET_STORAGE_IMAGE_HOME=${GADGET_STORAGE_IMAGE_HOME:-"/var/usb_gadget"}
 
 # Check existance of file system image
 GADGET_STORAGE_IMAGE_FILE="${GADGET_STORAGE_IMAGE_HOME}/${GADGET_FUNCTION_PROFILE}.img"
-[ ! -r "${GADGET_STORAGE_IMAGE_FILE}" ] && dd if=/dev/zero of=${GADGET_STORAGE_IMAGE_FILE} bs=1024 count=10M && mkfs.vfat ${GADGET_STORAGE_IMAGE_FILE}
+[ ! -r "${GADGET_STORAGE_IMAGE_FILE}" ] && dd if=/dev/zero of=${GADGET_STORAGE_IMAGE_FILE} bs=1024 count=10M && mkdosfs ${GADGET_STORAGE_IMAGE_FILE}
 
 # Check existance of mount directory
 GADGET_STORAGE_MOUNT_DIR=${GADGET_STORAGE_MOUNT_DIR:-"${GADGET_STORAGE_IMAGE_FILE/img/d}"}
