@@ -14,6 +14,16 @@
        state: present
      when: ansible_os_family == 'Debian'
 
+   - name: install dnsmasq
+     package:
+       name: dnsmasq
+       state: present
+
+   - name configure dnsmasq
+     ansible.builtin.copy:
+       src: etc/dnsmasq.d/usb.conf
+       dest: /etc/dnsmasq.d/usb.conf
+
    - name: install htop
      package:
        name: htop
