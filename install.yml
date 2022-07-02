@@ -24,7 +24,7 @@
        src: etc/dnsmasq.d/usb.conf
        dest: /etc/dnsmasq.d/usb.conf
 
-   - name enable dnsmasq
+   - name: enable dnsmasq
      sysvinit:
        name: dnsmasq
        state: started
