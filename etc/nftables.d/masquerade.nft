@@ -4,4 +4,4 @@ table ip nat {
                 oifname "eth0" masquerade
                 oifname "wlan0" masquerade
         }
-
+}
