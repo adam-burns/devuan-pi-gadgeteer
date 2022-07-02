@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Setup/tear down the libcomposite USB Gadget system through configfs
 #
 ### BEGIN INIT INFO
@@ -29,7 +29,7 @@ SCRIPTNAME=/etc/init.d/"$NAME"
 # modprobe libcomposite # load libcomposite
 # mount none $CONFIGFS_HOME -t configfs # mount configfs
 
-[ -r /etc/default/${NAME}] && . /etc/default/${NAME}
+[ -r /etc/default/${NAME} ] && . /etc/default/${NAME}
 
 # # ENV 
 CONFIGFS_HOME=${CONFIGFS_HOME:-"/sys/kernel/config"}
@@ -45,7 +45,7 @@ GADGET_BCD_USB=${GADGET_BCD_USB:-"0x0200"} # BCD USB version 2.0.0
 
 
 # Create Gadget Profile directory
-[! -d "${GADGET_HOME}"] && mkdir -p "${GADGET_HOME}"
+[ ! -d "${GADGET_HOME}" ] && mkdir -p "${GADGET_HOME}"
 
 # Set Gadget Profile Vendor & Product IDs
 echo ${GADGET_VENDOR_ID}  > ${GADGET_HOME}/idVendor
@@ -53,12 +53,12 @@ echo ${GADGET_PRODUCT_ID} > ${GADGET_HOME}/idProduct
 
 # Set Gadget Profile BCD versions
 echo ${GADGET_BCD_DEVICE} > ${GADGET_HOME}/bcdDevice
-echo ${GADGET_BCD_USB}    > ${GADGET_BCD_USB}/bcdUSB
+echo ${GADGET_BCD_USB}    > ${GADGET_HOME}/bcdUSB
 
 # Create Gadget Description Strings directory
 GADGET_STRINGS_LANG=${GADGET_STRINGS_LANG:-"0x409"} # English
 GADGET_STRINGS_HOME="${GADGET_HOME}/strings/${GADGET_STRINGS_LANG}"
-[! -d "${GADGET_STRINGS_HOME}"] && mkdir -p "${GADGET_STRINGS_HOME}"
+[ ! -d "${GADGET_STRINGS_HOME}" ] && mkdir -p "${GADGET_STRINGS_HOME}"
 # Set Gadget Description Strings
 GADGET_SERIAL_NUMBER_STR=${GADGET_SERIAL_NUMBER_STR:-"fedcba9876543211"}
 GADGET_MANUFACTURER_STR=${GADGET_MANUFACTURER_STR:-"adam@dyne.org"}
@@ -71,7 +71,7 @@ echo ${GADGET_PRODUCT_STR} > ${GADGET_STRINGS_HOME}/product
 GADGET_CONFIG_PROFILE=${GADGET_CONFIG_PROFILE:-"c"}
 GADGET_CONFIG_NUMBER=${GADGET_CONFIG_NUMBER:-1}
 GADGET_CONFIG_HOME="${GADGET_HOME}/configs/${GADGET_CONFIG_PROFILE}.${GADGET_CONFIG_NUMBER}"
-[! -d "${GADGET_CONFIG_HOME}"] && mkdir -p "${GADGET_CONFIG_HOME}"
+[ ! -d "${GADGET_CONFIG_HOME}" ] && mkdir -p "${GADGET_CONFIG_HOME}"
 
 # Set Gadget Configuration Attributes
 GADGET_CONFIG_MAXPOWER=${GADGET_CONFIG_MAXPOWER:-"120"}
@@ -79,7 +79,7 @@ echo "${GADGET_CONFIG_MAXPOWER}" > ${GADGET_CONFIG_HOME}/MaxPower
 
 # Create Gadget Configuration Description Strings directory
 GADGET_CONFIG_STR_HOME="${GADGET_CONFIG_HOME}/strings/${GADGET_STRINGS_LANG}"
-[! -d "${GADGET_CONFIG_STR_HOME}"] && mkdir -p "${GADGET_CONFIG_STR_HOME}"
+[ ! -d "${GADGET_CONFIG_STR_HOME}" ] && mkdir -p "${GADGET_CONFIG_STR_HOME}"
 # Set Gadget Configuration Strings
 GADGET_CONFIG_DESCRIPTION_STR=${GADGET_CONFIG_DESCRIPTION_STR:-"Devuan Pi USB Config ${GADGET_CONFIG_PROFILE}.${GADGET_CONFIG_NUMBER}"}
 
@@ -87,14 +87,14 @@ GADGET_CONFIG_DESCRIPTION_STR=${GADGET_CONFIG_DESCRIPTION_STR:-"Devuan Pi USB Co
 ############
 # Create Gadget Function directory
 GADGET_FUNCTIONS_HOME=${GADGET_HOME}/functions
-[! -d "${GADGET_FUNCTIONS_HOME}"] && mkdir -p "${GADGET_FUNCTION_HOME}"
+[ ! -d "${GADGET_FUNCTIONS_HOME}" ] && mkdir -p "${GADGET_FUNCTION_HOME}"
 
 # Add Ethernet Function Profile
 GADGET_FUNCTION_NAME=ecm
 GADGET_FUNCTION_INSTANCE=usb0
 GADGET_FUNCTION_PROFILE="${GADGET_FUNCTION_NAME}.${GADGET_FUNCTION_INSTANCE}"
 GADGET_FUNCTION_PROFILE_HOME="${GADGET_FUNCTIONS_HOME}/${GADGET_FUNCTION_PROFILE}"
-[! -d "${GADGET_FUNCTION_PROFILE_HOME}"] && mkdir -p "${GADGET_FUNCTION_PROFILE_HOME}"
+[ ! -d "${GADGET_FUNCTION_PROFILE_HOME}" ] && mkdir -p "${GADGET_FUNCTION_PROFILE_HOME}"
 
 # # first byte of address must be even
 # GADGET_FUNCTION_ECM_HOST=${GADGET_FUNCTION_ECM_HOST:-"48:6f:73:74:50:43"} # "HostPC"
