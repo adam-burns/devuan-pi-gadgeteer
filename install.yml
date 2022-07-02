@@ -24,12 +24,6 @@
        src: etc/dnsmasq.d/usb.conf
        dest: /etc/dnsmasq.d/usb.conf
 
-   - name: enable dnsmasq
-     sysvinit:
-       name: dnsmasq
-       state: started
-       enabled: yes
-
    - name: install htop
      package:
        name: htop
@@ -96,4 +90,61 @@
        path: "/etc/modules"
        line: "libcomposite"
      when: check.found == 0
+
+   - name: configure networks
+     ansible.builtin.copy:
+       src: etc/network/interfaces.d/usb0.conf
+       dest: /etc/network/interfaces.d/usb0.conf
+
+   - name: configure network forwarding
+     ansible.builtin.copy:
+       src: etc/sysctl.d/30-forwarding.conf
+       dest: /etc/sysctl.d/30-forwarding.conf
+
+   - name: Create /var/lib/dnsmasq if it does not exist
+     ansible.builtin.file:
+       path: /var/lib/dnsmasq
+       state: directory
+       mode: '0755'
+
+   - name: Create /etc/nftables.d if it does not exist
+     ansible.builtin.file:
+       path: /etc/nftables.d
+       state: directory
+       mode: '0755'
+
+   - name: Check if include "/etc/nftables.d/masquerade.nft" is configured in /etc/nftables.conf
+     become: yes
+     become_user: root
+     lineinfile:
+       state: absent
+       path: "/etc/nftables.conf"
+       regexp: '^include "/etc/nftables.d/masquerade.nft"'
+     check_mode: true
+     changed_when: false # This just makes things look prettier in the logs
+     register: check
+   
+   - name: Add include "/etc/nftables.d/masquerade.nft" if not present
+     lineinfile:
+       state: present
+       path: "/etc/nftables.conf"
+       line: 'include "/etc/nftables.d/masquerade.nft"'
+     when: check.found == 0
+
+   - name: configure nftables
+     ansible.builtin.copy:
+       src: etc/nftables.d/masquerade.nft
+       dest: /etc/nftables.d/masquerade.nft
+
+   - name: restart network-manager
+     sysvinit:
+       name: network-manager
+       state: restarted
+
+   - name: enable dnsmasq
+     sysvinit:
+       name: dnsmasq
+       state: started
+       enabled: yes
+
 

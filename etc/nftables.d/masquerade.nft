@@ -1,0 +1,7 @@
+table ip nat {
+        chain postrouting {
+                type nat hook postrouting priority srcnat; policy accept;
+                oifname "eth0" masquerade
+                oifname "wlan0" masquerade
+        }
+
