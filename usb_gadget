@@ -156,7 +156,8 @@ ln -s ${GADGET_FUNCTION_PROFILE_HOME} ${GADGET_CONFIG_HOME}/
 
 # In order to enable the gadget it must be bound to a UDC (USB Device Controller):
 # Enable Gadget (RPi's only have one controller ...)
-$(ls /sys/class/udc | cut -f1 | head -n 1) > ${GADGET_HOME}/UDC
+GADGET_UDC=$(ls /sys/class/udc | cut -f1 | head -n 1)
+echo "${GADGET_UDC} > ${GADGET_HOME}/UDC
 # Disable Gadget
 # echo "" > ${GADGET_HOME}/UDC
 
