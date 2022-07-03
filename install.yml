@@ -7,33 +7,17 @@
    - name: Wait for host {{inventory_hostname}} connection
      wait_for_connection:
     
-# Some useful packages for Devuan
-   - name: install bind-utils for Debian derivative
-     package:
-       name: bind9utils
-       state: present
-     when: ansible_os_family == 'Debian'
-
+# Install dnsmasq for dhcp over usb ethernet interfaces
    - name: install dnsmasq
      package:
        name: dnsmasq
        state: present
 
+# TODO consider dynamic network assignment for each host
    - name: configure dnsmasq
      ansible.builtin.copy:
        src: etc/dnsmasq.d/usb.conf
        dest: /etc/dnsmasq.d/usb.conf
-
-   - name: install htop
-     package:
-       name: htop
-       state: present
-
-   - name: install lsof
-     package:
-       name: lsof
-       state: present
-
 
 # DEBUG Clone Reflow repo
    - name: Clone devuan-pi-setup repository
@@ -124,36 +108,6 @@
        src: etc/boot.d/usb_gadget.sh
        dest: /etc/boot.d/usb_gadget
        mode: '0755'
-
-
-       #   - name: Create /etc/nftables.d if it does not exist
-       #     ansible.builtin.file:
-       #       path: /etc/nftables.d
-       #       state: directory
-       #       mode: '0755'
-       #
-       #   - name: Check if include "/etc/nftables.d/masquerade.nft" is configured in /etc/nftables.conf
-       #     become: yes
-       #     become_user: root
-       #     lineinfile:
-       #       state: absent
-       #       path: "/etc/nftables.conf"
-       #       regexp: '^include "/etc/nftables.d/masquerade.nft"'
-       #     check_mode: true
-       #     changed_when: false # This just makes things look prettier in the logs
-       #     register: check
-       #   
-       #   - name: Add include "/etc/nftables.d/masquerade.nft" if not present
-       #     lineinfile:
-       #       state: present
-       #       path: "/etc/nftables.conf"
-       #       line: 'include "/etc/nftables.d/masquerade.nft"'
-       #     when: check.found == 0
-       #
-       #   - name: configure nftables
-       #     ansible.builtin.copy:
-       #       src: etc/nftables.d/masquerade.nft
-       #       dest: /etc/nftables.d/masquerade.nft
 
    - name: restart network-manager
      sysvinit:
