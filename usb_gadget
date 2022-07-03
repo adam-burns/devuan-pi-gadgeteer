@@ -117,6 +117,7 @@ echo "RNDIS" > ${GADGET_FUNCTION_PROFILE_HOME}/os_desc/interface.rndis/compatibl
 echo "5162001" > ${GADGET_FUNCTION_PROFILE_HOME}/os_desc/interface.rndis/sub_compatible_id
 
 ln -s ${GADGET_FUNCTION_PROFILE_HOME} ${GADGET_CONFIG_HOME}/
+ln -s ${GADGET_CONFIG_HOME} ${GADGET_HOME}/os_desc
 
 # Add ECM Ethernet Function Profile
 GADGET_FUNCTION_NAME=ecm
