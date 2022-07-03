@@ -118,8 +118,8 @@ GADGET_FUNCTION_PROFILE_HOME="${GADGET_FUNCTIONS_HOME}/${GADGET_FUNCTION_PROFILE
 # GADGET_FUNCTION_ECM_SELF=${GADGET_FUNCTION_ECM_SELF:-"42:61:64:55:53:42"} # "BadUSB"
 # echo "${GADGET_FUNCTION_ECM_SELF}" > ${GADGET_FUNCTION_PROFILE_HOME}/self_addr
 
-add OS specific device descriptors to force Windows to load RNDIS drivers
-see https://github.com/RoganDawes/P4wnP1/blob/62b5c40d9461e4b80998c54830625d6c855833f0/boot/init_usb.sh#L150
+# add OS specific device descriptors to force Windows to load RNDIS drivers
+# see https://github.com/RoganDawes/P4wnP1/blob/62b5c40d9461e4b80998c54830625d6c855833f0/boot/init_usb.sh#L150
 [ ! -d "${GADGET_CONFIG_HOME}/os_desc" ] && mkdir -p "${GADGET_CONFIG_HOME}/os_desc"
 echo "1" > ${GADGET_CONFIG_HOME}/os_desc/use
 echo "0xbc" > ${GADGET_CONFIG_HOME}/os_desc/b_vendor_code
