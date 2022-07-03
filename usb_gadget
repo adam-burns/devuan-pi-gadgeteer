@@ -1,6 +1,6 @@
 #!/bin/bash
 # Setup/tear down the libcomposite USB Gadget system through configfs
-#
+# draft template should it evolve into init script?
 ### BEGIN INIT INFO
 # Provides:          usb_gadge
 # Required-Start:    $remote_fs $syslog $time
@@ -21,14 +21,13 @@ NAME=usb_gadget
 #PIDFILE=/var/run/crond.pid
 SCRIPTNAME=/etc/init.d/"$NAME"
 
-#test -f $DAEMON || exit 0
-
 . /lib/lsb/init-functions
 
 # # PREREQUITES
 # modprobe libcomposite # load libcomposite
-# mount none $CONFIGFS_HOME -t configfs # mount configfs
+# mount none $CONFIGFS_HOME -t configfs # mount configfs 
 
+# load default run-time env
 [ -r /etc/default/${NAME} ] && . /etc/default/${NAME}
 
 # # ENV 
@@ -137,6 +136,7 @@ echo "${GADGET_STORAGE_IMAGE_FILE}" > ${GADGET_FUNCTION_PROFILE_HOME}/lun.0/file
 
 ln -s ${GADGET_FUNCTION_PROFILE_HOME} ${GADGET_CONFIG_HOME}/
 
+# END FUNCTIONS
 
 # In order to enable the gadget it must be bound to a UDC (USB Device Controller):
 # Enable Gadget (RPi's only have one controller ...)
