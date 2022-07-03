@@ -113,10 +113,16 @@
        state: directory
        mode: '0755'
 
-   - name: configure network forwarding
+   - name:  network masquerading set at boot
      ansible.builtin.copy:
        src: etc/boot.d/masquerade.nft
-       dest: /etc/boot.d/masquerade.nft
+       dest: /etc/boot.d/masquerade
+       mode: '0755'
+
+   - name: usb_gadget set at boot
+     ansible.builtin.copy:
+       src: etc/boot.d/usb_gadget.sh
+       dest: /etc/boot.d/usb_gadget
        mode: '0755'
 
 
@@ -160,4 +166,19 @@
        state: started
        enabled: yes
 
+   - name:  install usb_gadget
+     ansible.builtin.copy:
+       src: usb_gadget
+       dest: /usr/local/bin/usb_gadget
+       mode: '0755'
+
+   - name: execute nft masquerade script
+     become: yes
+     become_user: root
+     command: /etc/boot.d/masquerade
+
+   - name: execute usb_gadget
+     become: yes
+     become_user: root
+     command: /usr/local/bin/usb_gadget
 
