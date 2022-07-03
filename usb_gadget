@@ -125,9 +125,9 @@ echo "1" > ${GADGET_CONFIG_HOME}/os_desc/use
 echo "0xbc" > ${GADGET_CONFIG_HOME}/os_desc/b_vendor_code
 echo "MSFT100" > ${GADGET_CONFIG_HOME}/os_desc/qw_sign
 
-[ ! -d "${GADGET_FUNCTION_PROFILE_HOME}/os_desc" ] && mkdir -p "${GADGET_FUNCTION_PROFILE_HOME}/os_desc"
-echo "RNDIS" > ${GADGET_FUNCTION_PROFILE_HOME}/os_desc/compatible_id
-echo "5162001" > ${GADGET_FUNCTION_PROFILE_HOME}/os_desc/sub_compatible_id
+[ ! -d "${GADGET_FUNCTION_PROFILE_HOME}/os_desc/${GADGET_FUNCTION_NAME}" ] && mkdir -p "${GADGET_FUNCTION_PROFILE_HOME}/os_desc/${GADGET_FUNCTION_NAME}"
+echo "RNDIS" > ${GADGET_FUNCTION_PROFILE_HOME}/os_desc/${GADGET_FUNCTION_NAME}/compatible_id
+echo "5162001" > ${GADGET_FUNCTION_PROFILE_HOME}/os_desc/${GADGET_FUNCTION_NAME}/sub_compatible_id
 
 
 # ln -s ${GADGET_FUNCTION_PROFILE_HOME} ${GADGET_CONFIG_HOME}/
