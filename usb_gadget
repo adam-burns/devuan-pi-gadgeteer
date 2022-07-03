@@ -120,14 +120,14 @@ GADGET_FUNCTION_PROFILE_HOME="${GADGET_FUNCTIONS_HOME}/${GADGET_FUNCTION_PROFILE
 
 # add OS specific device descriptors to force Windows to load RNDIS drivers
 # see https://github.com/RoganDawes/P4wnP1/blob/62b5c40d9461e4b80998c54830625d6c855833f0/boot/init_usb.sh#L150
-[ ! -d "${GADGET_CONFIG_HOME}/os_desc" ] && mkdir -p "${GADGET_CONFIG_HOME}/os_desc"
-echo "1" > ${GADGET_CONFIG_HOME}/os_desc/use
-echo "0xbc" > ${GADGET_CONFIG_HOME}/os_desc/b_vendor_code
-echo "MSFT100" > ${GADGET_CONFIG_HOME}/os_desc/qw_sign
+[ ! -d "${GADGET_HOME}/os_desc" ] && mkdir -p "${GADGET_HOME}/os_desc"
+echo "1" > ${GADGET_HOME}/os_desc/use
+echo "0xbc" > ${GADGET_HOME}/os_desc/b_vendor_code
+echo "MSFT100" > ${GADGET_HOME}/os_desc/qw_sign
 
-[ ! -d "${GADGET_FUNCTION_PROFILE_HOME}/os_desc/${GADGET_FUNCTION_NAME}" ] && mkdir -p "${GADGET_FUNCTION_PROFILE_HOME}/os_desc/${GADGET_FUNCTION_NAME}"
-echo "RNDIS" > ${GADGET_FUNCTION_PROFILE_HOME}/os_desc/${GADGET_FUNCTION_NAME}/compatible_id
-echo "5162001" > ${GADGET_FUNCTION_PROFILE_HOME}/os_desc/${GADGET_FUNCTION_NAME}/sub_compatible_id
+[ ! -d "${GADGET_FUNCTION_PROFILE_HOME}/os_desc/interface.rndis" ] && mkdir -p "${GADGET_FUNCTION_PROFILE_HOME}/os_desc/interface.rndis"
+echo "RNDIS" > ${GADGET_FUNCTION_PROFILE_HOME}/os_desc/interface.rndis/compatible_id
+echo "5162001" > ${GADGET_FUNCTION_PROFILE_HOME}/os_desc/interface.rndis/sub_compatible_id
 
 
 # ln -s ${GADGET_FUNCTION_PROFILE_HOME} ${GADGET_CONFIG_HOME}/
