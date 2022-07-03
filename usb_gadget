@@ -89,6 +89,8 @@ GADGET_CONFIG_DESCRIPTION_STR=${GADGET_CONFIG_DESCRIPTION_STR:-"Devuan Pi USB Co
 GADGET_FUNCTIONS_HOME=${GADGET_HOME}/functions
 [ ! -d "${GADGET_FUNCTIONS_HOME}" ] && mkdir -p "${GADGET_FUNCTION_HOME}"
 
+# TODO: research split out each function to something like usb_gadget.d and run run-parts
+
 # Add ECM Ethernet Function Profile
 GADGET_FUNCTION_NAME=ecm
 GADGET_FUNCTION_INSTANCE=usb0
