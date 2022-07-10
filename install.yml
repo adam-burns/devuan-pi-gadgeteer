@@ -8,6 +8,12 @@
      wait_for_connection:
     
 # Install dnsmasq for dhcp over usb ethernet interfaces
+   - name: install bridge-utils
+     package:
+       name: bridge-utils
+       state: present
+
+# Install dnsmasq for dhcp over usb ethernet interfaces
    - name: install dnsmasq
      package:
        name: dnsmasq
@@ -34,10 +40,10 @@
      become_user: root
      replace: 
        path: /boot/cmdline.txt
-       # regexp: '^((?!modules-load=dwc2).)+$'
        regexp: '^(.*)rootwait$'
        replace: '\1 rootwait modules-load=dwc2'
        backup: no
+     register: cmdline_updated
 
    - name: Check if dtoverlay=dwc2 is present
      become: yes
@@ -80,6 +86,16 @@
        src: etc/network/interfaces.d/usb0.conf
        dest: /etc/network/interfaces.d/usb0.conf
 
+   - name: configure networks
+     ansible.builtin.copy:
+       src: etc/network/interfaces.d/usb1.conf
+       dest: /etc/network/interfaces.d/usb1.conf
+
+   - name: configure networks
+     ansible.builtin.copy:
+       src: etc/network/interfaces.d/br0.conf
+       dest: /etc/network/interfaces.d/br0.conf
+
    - name: configure network forwarding
      ansible.builtin.copy:
        src: etc/sysctl.d/30-forwarding.conf
@@ -109,30 +125,36 @@
        dest: /etc/boot.d/usb_gadget
        mode: '0755'
 
-   - name: restart network-manager
-     sysvinit:
-       name: network-manager
-       state: restarted
 
-   - name: enable dnsmasq
-     sysvinit:
-       name: dnsmasq
-       state: started
-       enabled: yes
-
-   - name:  install usb_gadget
+   - name: install usb_gadget
      ansible.builtin.copy:
        src: usb_gadget
        dest: /usr/local/bin/usb_gadget
        mode: '0755'
 
-   - name: execute nft masquerade script
-     become: yes
-     become_user: root
-     command: /etc/boot.d/masquerade
+   - name: restart network-manager
+     sysvinit:
+       name: network-manager
+       state: restarted
 
-   - name: execute usb_gadget
-     become: yes
-     become_user: root
-     command: /usr/local/bin/usb_gadget
+   - name: reboot if necessary
+     ansible.builtin.reboot:
+     when: cmdline_updated is succeeded
+
+       ##   
+       #   - name: enable dnsmasq
+       #     sysvinit:
+       #       name: dnsmasq
+       #       state: started
+       #       enabled: yes
+       #
+       #   - name: execute nft masquerade script
+       #     become: yes
+       #     become_user: root
+       #     command: /etc/boot.d/masquerade
+       #
+       #   - name: execute usb_gadget
+       #     become: yes
+       #     become_user: root
+       #     command: /usr/local/bin/usb_gadget
 

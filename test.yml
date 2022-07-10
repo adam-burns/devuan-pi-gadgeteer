@@ -1,0 +1,77 @@
+---
+- name: Install some packages
+  hosts: all
+  tasks:
+
+# Wait until host is ready
+    - name: Wait for {{ ansible_facts['distribution'] }} {{ ansible_facts['distribution_major_version'] }} host {{inventory_hostname}} connection
+      wait_for_connection:
+
+- name: Read in Host Details
+  hosts: all
+
+  tasks:
+
+    - name: Check if configfs is mounted
+      ansible.builtin.shell: mountpoint /sys/kernel/config/
+      register: is_configfs_mounted
+
+    - name: Check if module dwc2 is loaded
+      ansible.builtin.shell: lsmod | grep libcomposite
+      register: is_dwc2_loaded
+      ignore_errors: true
+
+    - name: Check contents for emptiness
+      ansible.builtin.debug:
+        msg: "dwc2 module is not loaded"
+      when: is_dwc2_loaded.stdout == ""
+
+    - name: Check contents for non emptiness
+      ansible.builtin.debug:
+        msg: "dwc2 module is loaded"
+      when: is_dwc2_loaded.stdout != ""
+
+    - name: Check if libcomposite is loaded
+      ansible.builtin.shell: lsmod | grep libcomposite
+      register: is_libcomposite_loaded
+      ignore_errors: true
+
+    - name: Check contents for emptiness
+      ansible.builtin.debug:
+        msg: "libcomposite module is not loaded"
+      when: is_libcomposite_loaded.stdout == ""
+
+    - name: Check contents for non emptiness
+      ansible.builtin.debug:
+        msg: "libcomposite module is loaded"
+      when: is_libcomposite_loaded.stdout != ""
+
+
+#    - name: List contents of directory
+#      ansible.builtin.command: ls
+#      register: contents
+
+#    - name: Check contents for emptiness
+#      ansible.builtin.debug:
+#        msg: "Directory is empty"
+#      when: contents.stdout == ""
+
+#    - name: Check contents for non emptiness
+#      ansible.builtin.debug:
+#        msg: "Directory is non empty"
+#      when: contents.stdout != ""
+
+
+
+       #   - name: Maybe test
+       #     ansible.builtin.debug:
+       ##      var:
+       ##        - ansible_lsb.id
+       ##        - distribution
+       #       msg:
+       #         - "{{ hostvars[inventory_hostname] }}"
+       #         - "{{ ansible_facts['distribution'] }}"
+       #         - "{{ ansible_facts['distribution'] }}"
+       ##        - "{{ hostvars[inventory_hostname] | to_nice_json }}"
+       ##        - "{{ hostvars[inventory_hostname] }}"
+       ##        - "{{ ansible_lsb.id }}"

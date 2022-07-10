@@ -149,7 +149,7 @@ GADGET_STORAGE_IMAGE_HOME=${GADGET_STORAGE_IMAGE_HOME:-"/var/usb_gadget"}
 # Check existance of file system image
 GADGET_STORAGE_IMAGE_FILE_SIZE=${GADGET_STORAGE_IMAGE_FILE_SIZE:-"10K"}
 GADGET_STORAGE_IMAGE_FILE="${GADGET_STORAGE_IMAGE_HOME}/${GADGET_FUNCTION_PROFILE}.img"
-[ ! -r "${GADGET_STORAGE_IMAGE_FILE}" ] && dd if=/dev/zero of=${GADGET_STORAGE_IMAGE_FILE} bs=1M count=${GADGET_STORAGE_IMAGE_FILE_SIZE} && mkdosfs ${GADGET_STORAGE_IMAGE_FILE}
+[ ! -r "${GADGET_STORAGE_IMAGE_FILE}" ] && dd if=/dev/zero of=${GADGET_STORAGE_IMAGE_FILE} bs=1M count=${GADGET_STORAGE_IMAGE_FILE_SIZE} status=progress && mkdosfs ${GADGET_STORAGE_IMAGE_FILE}
 
 # Check existance of mount directory
 GADGET_STORAGE_MOUNT_DIR=${GADGET_STORAGE_MOUNT_DIR:-"${GADGET_STORAGE_IMAGE_FILE/img/d}"}
@@ -174,4 +174,4 @@ GADGET_UDC=$(ls /sys/class/udc | cut -f1 | head -n 1)
 echo "${GADGET_UDC}" > ${GADGET_HOME}/UDC
 # Disable Gadget
 # echo "" > ${GADGET_HOME}/UDC
-
+brctl addif br0 usb0 usb1 # because /etc/network/interfaces.d/br0.conf is not adding bridge_ports ...
