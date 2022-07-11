@@ -10,8 +10,8 @@ local:
 	export ansible_hosts=localhost
 	ansible-playbook -i local.yml install.yml
 
-test:
+scan:
 	export ANSIBLE_HOST_KEY_CHECKING=False
 	export ansible_hosts=devuanpi
-	ansible-playbook -i hosts.yml test.yml
+	ansible-playbook -i hosts.yml discover_system_state.yml
 
