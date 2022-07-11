@@ -70,6 +70,8 @@ USB Host functionality has been tested as functional on:
 <details id="toc">
  <summary><strong>🚩 Table of Contents</strong> (click to expand)</summary>
 
+* [Prepare](#-prepare)
+* [Install](#-install)
 * [Quick start](#-quick-start)
 * [Links](#-links)
 * [Contributing](#-contributing)
@@ -79,13 +81,9 @@ USB Host functionality has been tested as functional on:
 ***
 ##  📝 Prepare
 
-- Install Devuan Pi on a compatible Raspberry Pi
+- Install Devuan Pi on a compatible Raspberry Pi from latest nightly builds for Devuan Pi, available on the [Devuan ARM images site](https://arm-files.devuan.org/RaspberryPi%20Latest%20Builds/). Download & install the correct image for your hardware (Devuan Daedalus release recommended).
 
-The latest nightly builds for Devuan Pi are available on the [Devuan ARM images site](https://arm-files.devuan.org/RaspberryPi%20Latest%20Builds/).
-
-Download & install the correct image for your hardware (Devuan Daedalus release recommended).
-
-- Configure the freshly installed Devuan Pi with a wireless network
+- Configure the freshly installed Devuan Pi with a wireless network (as root):
 
 ```
 
@@ -94,7 +92,7 @@ menu-config
 
 ```
 
-When the device is connected to the wireless network, take note of its IP address as it may be needed for if multicast DNS is not detected 
+When the device is connected to the wireless network, take note of its IP address as it may be needed for if multicast DNS is not detected. 
 
 ***
 ## 💾 Install
