@@ -34,7 +34,7 @@
 
 **Work in progress** 🚧: 
 
-Devuan Pi Gadgeteer is an ansible script to enable compatible Raspberry Pi hardware models running Devuan Pi to act as USB Devices when connected to a host or laptop.
+Devuan Pi Gadgeteer is an ansible script to enable compatible Raspberry Pi hardware models running [Devuan Pi](https://arm-files.devuan.org/RaspberryPi%20Latest%20Builds/) to act as a USB Device when connected to a host or laptop.
 
 This repository should be cloned on a local provisioning machine, not on the device to be provisioned (this may work, but has not been tested).
 
