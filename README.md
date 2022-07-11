@@ -78,7 +78,6 @@ USB Host functionality has been tested as functional on:
 * [License](#-license)
 </details>
 
-***
 ##  📝 Prepare
 
 - Install Devuan Pi on a compatible Raspberry Pi from latest nightly builds for Devuan Pi, available on the [Devuan ARM images site](https://arm-files.devuan.org/RaspberryPi%20Latest%20Builds/). Download & install the correct image for your hardware (Devuan Daedalus release recommended).
@@ -87,10 +86,10 @@ USB Host functionality has been tested as functional on:
 
 ```
 
-sudo su -
 menu-config
 
 ```
+***
 
 When the device is connected to the wireless network, take note of its IP address as it may be needed for if multicast DNS is not detected. 
 
@@ -105,10 +104,12 @@ make play
 
 
 ```
+***
 
-By default, Devuan Pi installs have a hostname configured as devuanpi. If the ansible script errors complaining it cannot find the device, edit the file `hosts.yml` and replace the hostname devuanpi.local with the IP address of the Pi to be provisioned.
+By default, the Devuan Pi hostname is configured as `devuanpi`. If on the provisioning host, the ansible script errors reporting it cannot find the target device, edit the file `hosts.yml` and replace the hostname `devuanpi.local` with the IP address of the Pi to be provisioned.
 
 ***
+
 ## 🎮 Quick start
 
 - Power down the provisioned Pi and disconnect the Pi power supply.
@@ -117,9 +118,9 @@ By default, Devuan Pi installs have a hostname configured as devuanpi. If the an
 
 - Connect the other end of the USB cable to a host computer.
 
+***
+
 With power now supplied by the host computer, the Devuan Pi will boot and expose storage and network devices to the host.
-
-
 
 ***
 **[🔝 back to top](#toc)**
