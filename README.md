@@ -89,12 +89,12 @@ menu-config
 ```
 ***
 
-_When the device is connected to the wireless network, take note of its IP address as it may be needed for if multicast DNS is not detected._
+_When the device is connected to the wireless network, take note of its IP address as it may be needed for if multicast DNS is not detected during the install process._
 
 ***
 ## 💾 Install
 
-Once the Devuan Pi is connected to the local network, issuing the following on the provisioning host to stars the install:
+Once the Devuan Pi is connected to the local network, issuing the following on the provisioning host to start the install:
 
 ```
 
@@ -103,7 +103,7 @@ make play
 ```
 This executes an ansible playbook to configure the system and will reboot the Pi.
 
-On the first reboot, the system will then format a fresh 10G (default) image file for USB mass storage device. This can take about 20 minutes on a Pi 4.
+On the first reboot, the system will then format a fresh 10G (default) image file for a USB mass storage device. This can take about 20 minutes on a Pi 4.
 
 ***
 
