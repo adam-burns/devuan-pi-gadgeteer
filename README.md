@@ -94,13 +94,17 @@ _When the device is connected to the wireless network, take note of its IP addre
 ***
 ## 💾 Install
 
-Once the Devuan Pi is connected to the local network, with the issuing the following on the provisioning host starts the install process:
+Once the Devuan Pi is connected to the local network, issuing the following on the provisioning host to stars the install:
 
 ```
 
 make play
 
 ```
+This executes an ansible playbook to configure the system and will reboot the Pi.
+
+On the first reboot, the system will then format a fresh 10G (default) image file for USB mass storage device. This can take about 20 minutes on a Pi 4.
+
 ***
 
 _By default, the Devuan Pi hostname is configured as `devuanpi`. If on the provisioning host, the ansible script errors reporting it cannot find the target device, edit the file `hosts.yml` and replace the hostname `devuanpi.local` with the IP address of the Pi to be provisioned._
