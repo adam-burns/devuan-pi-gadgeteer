@@ -48,13 +48,19 @@ Currently the script enables a compatible Devuan Pi to present itself to a USB h
 
 ** Raspberry Pi Hardware Compatibility **
 
-This script installs the dwc2 Device Tree overlay module, which is functional and has been tested only on:
+This script installs the dwc2 Device Tree overlay module, which is functional and tested on:
 
 - Raspberry Pi 4
 - Raspberry Pi Zero W
 - Raspberry Pi Zero 2 W
 
-Host functionality has been tested as functional on:
+This script is known not to work on the following models (as hardware/internal wiring is incompatible).
+
+- Raspberry Pi 2 
+- Raspberry Pi 3
+
+
+USB Host functionality has been tested as functional on:
 
 - Windows 10
 - Fedora 35 Linux
@@ -93,7 +99,7 @@ When the device is connected to the wireless network, take note of its IP addres
 ***
 ## 💾 Install
 
-Once the Devuan Pi is visible on the local network, the 
+Once the Devuan Pi is connected to the local network, with the issuing the following on the provisioning host starts the install process:
 
 ```
 
@@ -102,20 +108,19 @@ make play
 
 ```
 
+By default, Devuan Pi installs have a hostname configured as devuanpi. If the ansible script errors complaining it cannot find the device, edit the file `hosts.yml` and replace the hostname devuanpi.local with the IP address of the Pi to be provisioned.
 
 ***
 ## 🎮 Quick start
 
+- Power down the provisioned Pi and disconnect the Pi power supply.
 
+- Connect a USB cable to the the Pi USB power supply USB port.
 
-Plug in ethernet cable (where available) or as root
-**`menu-config`**
-on Devuan Pi to configure a WiFi connection to come up as an active connection on boot.
+- Connect the other end of the USB cable to a host computer.
 
+With power now supplied by the host computer, the Devuan Pi will boot and expose storage and network devices to the host.
 
-Follow installation instructions.
-
-Plug in RPi by connecting the USB power port of the RPi into a USB port of a host.
 
 
 ***
