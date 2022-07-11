@@ -56,16 +56,14 @@ This script installs the dwc2 Device Tree overlay module, which is functional an
 
 This script is known not to work on the following models (as hardware/internal wiring is incompatible).
 
+- Raspberry Pi 1
 - Raspberry Pi 2 
 - Raspberry Pi 3
-
 
 USB Host functionality has been tested as functional on:
 
 - Windows 10
 - Fedora 35 Linux
-
-
 
 <details id="toc">
  <summary><strong>🚩 Table of Contents</strong> (click to expand)</summary>
@@ -91,7 +89,7 @@ menu-config
 ```
 ***
 
-When the device is connected to the wireless network, take note of its IP address as it may be needed for if multicast DNS is not detected. 
+_When the device is connected to the wireless network, take note of its IP address as it may be needed for if multicast DNS is not detected._
 
 ***
 ## 💾 Install
@@ -102,11 +100,10 @@ Once the Devuan Pi is connected to the local network, with the issuing the follo
 
 make play
 
-
 ```
 ***
 
-By default, the Devuan Pi hostname is configured as `devuanpi`. If on the provisioning host, the ansible script errors reporting it cannot find the target device, edit the file `hosts.yml` and replace the hostname `devuanpi.local` with the IP address of the Pi to be provisioned.
+_By default, the Devuan Pi hostname is configured as `devuanpi`. If on the provisioning host, the ansible script errors reporting it cannot find the target device, edit the file `hosts.yml` and replace the hostname `devuanpi.local` with the IP address of the Pi to be provisioned._
 
 ***
 
@@ -120,7 +117,7 @@ By default, the Devuan Pi hostname is configured as `devuanpi`. If on the provis
 
 ***
 
-With power now supplied by the host computer, the Devuan Pi will boot and expose storage and network devices to the host.
+_With power now supplied by the host computer, in exchange, the Devuan Pi will boot and expose storage and network devices to the host._
 
 ***
 **[🔝 back to top](#toc)**

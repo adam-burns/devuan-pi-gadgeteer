@@ -32,9 +32,9 @@
 #
 # Device tree modules
 #
-#    - name: Check if module dwc2 is loaded
-#      ansible.builtin.shell: lsmod | grep libcomposite
-#      register: is_dwc2_loaded
+    - name: Check if module dwc2 is loaded
+      ansible.builtin.shell: lsmod | grep libcomposite
+      register: is_dwc2_loaded
 #
 # Kernel modules
 #
@@ -58,9 +58,9 @@
         - "Serial Number   - {{ sys_serial_number.stdout_lines }}"
         - "OS              - {{ ansible_distribution }} {{ ansible_distribution_major_version }} {{ ansible_distribution_release }} "
         - "cmdline modules - {{ ansible_cmdline['modules-load'] }}"
-        - "{{ modules_loaded.stdout.split('\n') }}"
+#       - "{{ modules_loaded.stdout.split('\n') }}"
         - "configfs status - {{ is_configfs_mounted.stdout }}"
-        - "ansible facts   - {{ ansible_facts | to_json }}"
+#       - "ansible facts   - {{ ansible_facts | to_json }}"
 #       - "device links    - {{ ansible_device_links['ids'] | to_nice_json }}"
 #       - "devices         - {{ ansible_devices | to_json  }}"
 
