@@ -4,8 +4,6 @@
   </a>
 </p>
 
-![Devuan Pi Gadgeteer Photo](photos/DevuanPi4-800x600.png)
-
 <h1 align="center">
   Devuan Pi Gadgeteer</br>
   <sub></sub>
@@ -33,6 +31,7 @@
   <a href="#-license">💼 License</a>
 </h4>
 
+![Devuan Pi Gadgeteer Photo](photos/DevuanPi4-800x600.png)
 
 **Work in progress** 🚧: 
 
