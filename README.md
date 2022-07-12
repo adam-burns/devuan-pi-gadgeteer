@@ -4,6 +4,8 @@
   </a>
 </p>
 
+![Devuan Pi Gadgeteer Photo](photos/DevuanPi4-800x600.png)
+
 <h1 align="center">
   Devuan Pi Gadgeteer</br>
   <sub></sub>
@@ -34,13 +36,17 @@
 
 **Work in progress** 🚧: 
 
-Devuan Pi Gadgeteer is an ansible script to enable compatible Raspberry Pi hardware models running [Devuan Pi](https://arm-files.devuan.org/RaspberryPi%20Latest%20Builds/) to act as a USB Device when connected to a host or laptop.
+Devuan Pi Gadgeteer is an ansible script to enable compatible Raspberry Pi hardware models running [Devuan Pi](https://arm-files.devuan.org/RaspberryPi%20Latest%20Builds/) to act as a multi-function USB device (also called a gadget) when connected to a host or laptop.
+
+The default configuration offers a USB network interface presented to the USB host with a higher routing priority than other native ethernet or WiFi interfaces. This means all default networking traffic is configured to flow through the Devuan Pi USB gadget.
+
+The default configuration also offers a virtual USB flash drive storage device (capacity configurable, default 10G), a side effect of this is the connected USB host can potentially be booted from this device.
 
 This repository should be cloned on a local provisioning machine, not on the device to be provisioned (this may work, but has not been tested).
 
 Currently the script enables a compatible Devuan Pi to present itself to a USB host as:
 
-- a USB 10G mass storage gadget
+- a USB 10G mass storage gadget (capacity is configurable)
 
 - network adapter gadgets (ECM & RNDIS adapters)
 
