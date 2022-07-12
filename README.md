@@ -8,7 +8,9 @@
   Devuan Pi Gadgeteer</br>
   <sub></sub>
 </h1>
+
 ![Devuan Pi Gadgeteer Photo](photos/DevuanPi4-800x600.png)
+
 ![Devuan Pi Gadgeteer Photo](photos/DevuanPi0-800x600.png)
 
 <p align="center">
