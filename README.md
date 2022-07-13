@@ -1,13 +1,18 @@
-<p align="center">
+<!---<p align="center">
   <a href="https://www.dyne.org">
     <img alt="Devuan Pi Gadgeteer" src="/public/logo.png" width="150" />
   </a>
-</p>
+</p>--->
 
 <h1 align="center">
   Devuan Pi Gadgeteer</br>
   <sub></sub>
 </h1>
+
+<p align="center">
+  Give power to a Pi</br>
+  Get virtual USB devices
+</p>
 
 ![Devuan Pi Gadgeteer Photo](photos/DevuanPi4-800x600.png)
 
