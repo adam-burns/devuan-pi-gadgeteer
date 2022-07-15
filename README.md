@@ -63,20 +63,34 @@ Currently the script enables a compatible Devuan Pi to present itself to a USB h
 
 This script installs the dwc2 Device Tree overlay module, which is functional and tested on:
 
-- Raspberry Pi 4
-- Raspberry Pi Zero W
-- Raspberry Pi Zero 2 W
+
+| Pi Model             |    |
+| :------------------- |:--:|
+| Raspberry Pi 4       |Yes |
+| Raspberry Pi Zero W  |Yes |
+| Raspberry Pi Zero 2 W|Yes |
+| Raspberry Pi 1       | No |
+| Raspberry Pi 2       | No |
+| Raspberry Pi 3       | No |
+
 
 This script is known not to work on the following models (as hardware/internal wiring is incompatible).
 
-- Raspberry Pi 1
-- Raspberry Pi 2 
-- Raspberry Pi 3
 
 USB Host functionality has been tested as functional on:
 
-- Windows 10
-- Fedora 35 Linux
+- Windows 10 (Thinkpad P52)
+- Fedora 35 Linux (Thinkpad P52)
+- macOS Monterey (MacBook Air M1 2020)
+- Android 11 (Nokia 7.2) (under voltage warnings: no networking but mass storage works)
+
+| Host OS        | Host Hardware        | Pi Model | USB Storage |USB Network|
+| :------------- |:-------------------- |:--------:|:----------: |:---------:|
+| Windows 10     | Lenovo Thinkpad P52  | Pi 4     |    Yes      |   Yes     |
+| macOS Monterey | MacBook Air M1 2020  | Pi 4     |    Yes      |   Yes     |
+| Android 11     | Nokia 7.2            | Pi 4     |    Yes      |   No      |
+
+</br>
 
 <details id="toc">
  <summary><strong>🚩 Table of Contents</strong> (click to expand)</summary>
@@ -134,7 +148,7 @@ _By default, the Devuan Pi hostname is configured as `devuanpi`. If on the provi
 
 ***
 
-_With power now supplied by the host computer, in exchange, the Devuan Pi will boot and expose storage and network devices to the host._
+_With power now supplied by the host computer, in exchange, the Devuan Pi will boot and expose USB storage and network devices to the host._
 
 ***
 **[🔝 back to top](#toc)**
