@@ -61,28 +61,21 @@ Currently the script enables a compatible Devuan Pi to present itself to a USB h
 
 ** Raspberry Pi Hardware Compatibility **
 
-This script installs the dwc2 Device Tree overlay module, which is functional and tested on:
 
 
-| Pi Model             |    |
-| :------------------- |:--:|
-| Raspberry Pi 4       |Yes |
-| Raspberry Pi Zero W  |Yes |
-| Raspberry Pi Zero 2 W|Yes |
-| Raspberry Pi 1       | No |
-| Raspberry Pi 2       | No |
-| Raspberry Pi 3       | No |
+| Pi Model             |    | |
+| :------------------- |:--:|-|
+| Raspberry Pi 4       |Yes | |
+| Raspberry Pi Zero W  |Yes | |
+| Raspberry Pi Zero 2 W|Yes | |
+| Raspberry Pi 1       | No | Hardware not compatible|
+| Raspberry Pi 2       | No | Hardware not compatible|
+| Raspberry Pi 3       | No | No Data lines on USB power port|
 
-
-This script is known not to work on the following models (as hardware/internal wiring is incompatible).
 
 
 USB Host functionality has been tested as functional on:
 
-- Windows 10 (Thinkpad P52)
-- Fedora 35 Linux (Thinkpad P52)
-- macOS Monterey (MacBook Air M1 2020)
-- Android 11 (Nokia 7.2) (under voltage warnings: no networking but mass storage works)
 
 | Host OS        | Host Hardware        | Pi Model | USB Storage |USB Network|
 | :------------- |:-------------------- |:--------:|:----------: |:---------:|
