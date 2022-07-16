@@ -81,17 +81,17 @@
        line: "libcomposite"
      when: check.found == 0
 
-   - name: configure networks
+   - name: configure usb0 network interface
      ansible.builtin.copy:
        src: etc/network/interfaces.d/usb0.conf
        dest: /etc/network/interfaces.d/usb0.conf
 
-   - name: configure networks
+   - name: configure usb1 network interface
      ansible.builtin.copy:
        src: etc/network/interfaces.d/usb1.conf
        dest: /etc/network/interfaces.d/usb1.conf
 
-   - name: configure networks
+   - name: configure br0 network interface
      ansible.builtin.copy:
        src: etc/network/interfaces.d/br0.conf
        dest: /etc/network/interfaces.d/br0.conf
@@ -132,14 +132,15 @@
        dest: /usr/local/bin/usb_gadget
        mode: '0755'
 
-   - name: restart network-manager
-     sysvinit:
-       name: network-manager
-       state: restarted
+       #   - name: restart network-manager
+       #     sysvinit:
+       #       name: network-manager
+       #       state: restarted
 
    - name: reboot if necessary
      ansible.builtin.reboot:
-     when: cmdline_updated is succeeded
+       reboot_timeout: 3600
+     when: cmdline_updated.changed
 
        ##   
        #   - name: enable dnsmasq
