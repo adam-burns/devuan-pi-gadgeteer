@@ -30,59 +30,29 @@
       ansible.builtin.shell: mountpoint /sys/kernel/config/
       register: is_configfs_mounted
 #
-# Device tree modules
-#
-    - name: Check if module dwc2 is loaded
-      ansible.builtin.shell: lsmod | grep libcomposite
-      register: is_dwc2_loaded
-#
-# Kernel modules
-#
-    - name: Retrieve loaded modules
-      ansible.builtin.shell: "lsmod | cut -f1 -d' '"
-      register: modules_loaded
-#
 # Kernel modules
 #
     - name: Check if libcomposite is loaded
-      ansible.builtin.shell: lsmod
+      ansible.builtin.shell: "{ { lsmod | grep libcomposite >/dev/null; } && echo 'loaded'; } || echo 'not loaded'"
       register: is_libcomposite_loaded
+#
+    - name: Check if dwc2 is loaded
+      ansible.builtin.shell: "{ { lsmod | grep dwc2 >/dev/null; } && echo 'loaded'; } || echo 'not loaded'"
+      register: is_dwc2_loaded
 #
 # Display results
 #
     - name: "Target {{ inventory_hostname }} report"
       debug:
         msg: 
-        - "Hardware        - {{ dt_hardware_model.stdout }}"
-        - "Architecture    - {{ ansible_architecture }}"
-        - "Serial Number   - {{ sys_serial_number.stdout_lines }}"
-        - "OS              - {{ ansible_distribution }} {{ ansible_distribution_major_version }} {{ ansible_distribution_release }} "
-        - "cmdline modules - {{ ansible_cmdline['modules-load'] }}"
-#       - "{{ modules_loaded.stdout.split('\n') }}"
-        - "configfs status - {{ is_configfs_mounted.stdout }}"
+        - "Hardware             - {{ dt_hardware_model.stdout }}"
+        - "Architecture         - {{ ansible_architecture }}"
+        - "Serial Number        - {{ sys_serial_number.stdout_lines }}"
+        - "OS                   - {{ ansible_distribution }} {{ ansible_distribution_major_version }} {{ ansible_distribution_release }} "
+        - "cmdline modules-load - {{ ansible_cmdline['modules-load'] }}"
+        - "configfs status      - {{ is_configfs_mounted.stdout }}"
+        - "libcomposite module  - {{ is_libcomposite_loaded.stdout }}"
+        - "dwc2 module          - {{ is_dwc2_loaded.stdout }}"
 #       - "ansible facts   - {{ ansible_facts | to_json }}"
 #       - "device links    - {{ ansible_device_links['ids'] | to_nice_json }}"
 #       - "devices         - {{ ansible_devices | to_json  }}"
-
-    - name: Target model configfs - {{ is_configfs_mounted.stdout }}
-      ansible.builtin.shell: echo
-
-    - name: Check contents for emptiness
-      debug:
-        msg: "dwc2 module is not loaded"
-      when: is_dwc2_loaded.stdout == ""
-
-    - name: Check contents for non emptiness
-      debug:
-        msg: "dwc2 module is loaded"
-      when: is_dwc2_loaded.stdout != ""
-
-    - name: Check contents for emptiness
-      debug:
-        msg: "libcomposite module is not loaded"
-      when: is_libcomposite_loaded.stdout == ""
-
-    - name: Check contents for non emptiness
-      debug:
-        msg: "libcomposite module is loaded"
-      when: is_libcomposite_loaded.stdout != ""
