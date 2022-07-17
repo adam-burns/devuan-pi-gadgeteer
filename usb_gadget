@@ -174,4 +174,3 @@ GADGET_UDC=$(ls /sys/class/udc | cut -f1 | head -n 1)
 echo "${GADGET_UDC}" > ${GADGET_HOME}/UDC
 # Disable Gadget
 # echo "" > ${GADGET_HOME}/UDC
-brctl addif br0 usb0 usb1 # because /etc/network/interfaces.d/br0.conf is not adding bridge_ports ...
