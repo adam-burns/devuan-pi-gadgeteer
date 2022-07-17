@@ -7,13 +7,19 @@
    - name: Wait for host {{inventory_hostname}} connection
      wait_for_connection:
     
-# Install dnsmasq for dhcp over usb ethernet interfaces
+# Install bridge-utils for bridging both usb ethernet interfaces
    - name: install bridge-utils
      package:
        name: bridge-utils
        state: present
 
-# Install dnsmasq for dhcp over usb ethernet interfaces
+# Install avahi-autoipd for zeroconf networking (ipv4ll method) on usb[0,1]
+   - name: install avahi-autoipd
+     package:
+       name: avahi-autoipd
+       state: present
+
+# Install dnsmasq for dhcp over br0 interface
    - name: install dnsmasq
      package:
        name: dnsmasq
