@@ -7,6 +7,14 @@
    - name: Wait for host {{inventory_hostname}} connection
      wait_for_connection:
     
+   - name: Assign random RFC1981 net prefix
+     set_fact:
+       random_net_prefix: "192.168.{{ 128 | random + 127 }}"
+
+   - name: Assign gadget net prefix from env or random default
+     set_fact:
+       gadget_net_prefix: "{{ lookup('env', 'GADGET_NET_PREFIX') | default(random_net_prefix, true) }}"
+
 # Install bridge-utils for bridging both usb ethernet interfaces
    - name: install bridge-utils
      package:
@@ -25,10 +33,15 @@
        name: dnsmasq
        state: present
 
-# TODO consider dynamic network assignment for each host
-   - name: configure dnsmasq
-     ansible.builtin.copy:
-       src: etc/dnsmasq.d/usb.conf
+## TODO consider dynamic network assignment for each host
+#  - name: configure dnsmasq
+#    ansible.builtin.copy:
+#      src: etc/dnsmasq.d/usb.conf
+#      dest: /etc/dnsmasq.d/usb.conf
+
+   - name: configure dnsmasq from template
+     template:
+       src: etc/dnsmasq.d/usb.conf.j2
        dest: /etc/dnsmasq.d/usb.conf
 
 # DEBUG Clone Reflow repo
@@ -97,9 +110,14 @@
        src: etc/network/interfaces.d/usb1.conf
        dest: /etc/network/interfaces.d/usb1.conf
 
-   - name: configure br0 network interface
-     ansible.builtin.copy:
-       src: etc/network/interfaces.d/br0.conf
+#  - name: configure br0 network interface
+#    ansible.builtin.copy:
+#      src: etc/network/interfaces.d/br0.conf
+#      dest: /etc/network/interfaces.d/br0.conf
+
+   - name: Create br0 network config from template
+     template:
+       src: etc/network/interfaces.d/br0.conf.j2
        dest: /etc/network/interfaces.d/br0.conf
 
    - name: configure network forwarding

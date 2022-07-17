@@ -4,10 +4,10 @@ no-resolv
 server=8.8.8.8
 server=8.8.4.4
 local=/mydomain.org/
-listen-address=::1,127.0.0.1,192.168.194.1
+listen-address=::1,127.0.0.1,{{ gadget_net_prefix }}.1
 expand-hosts
 domain=mydomain.org
-dhcp-range=192.168.194.100,192.168.194.200,24h
-dhcp-option=option:router,192.168.194.1
+dhcp-range={{ gadget_net_prefix }}.100,{{ gadget_net_prefix }}.200,24h
+dhcp-option=option:router,{{ gadget_net_prefix }}.1
 dhcp-authoritative
 dhcp-leasefile=/var/lib/dnsmasq/dnsmasq.leases
