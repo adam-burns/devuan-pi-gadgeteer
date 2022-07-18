@@ -77,11 +77,14 @@ Currently the script enables a compatible Devuan Pi to present itself to a USB h
 USB Host functionality has been tested as functional on:
 
 
-| Host OS        | Host Hardware        | Pi Model | USB Storage |USB Network|
-| :------------- |:-------------------- |:--------:|:----------: |:---------:|
-| Windows 10     | Lenovo Thinkpad P52  | Pi 4     |    Yes      |   Yes     |
-| macOS Monterey | MacBook Air M1 2020  | Pi 4     |    Yes      |   Yes     |
-| Android 11     | Nokia 7.2            | Pi 4     |    Yes      |   No      |
+| Host OS        | Host Hardware        | Pi Model  | USB Storage |USB Network|
+| :------------- |:-------------------- |:---------:|:----------: |:---------:|
+| Windows 10     | Lenovo Thinkpad P52  | Pi 4      |    Yes      |   Yes     |
+| Windows 10     | Lenovo Thinkpad P52  | Pi Zero 2W|    Yes      |   Yes     |
+| Linux Fedora 35| Lenovo Thinkpad P52  | Pi 4      |    Yes      |   Yes     |
+| Linux Fedora 35| Lenovo Thinkpad P52  | Pi Zero 2W|    Yes      |   Yes     |
+| macOS Monterey | MacBook Air M1 2020  | Pi 4      |    Yes      |   Yes     |
+| Android 11     | Nokia 7.2            | Pi 4      |    Yes      |   No      |
 
 </br>
 
