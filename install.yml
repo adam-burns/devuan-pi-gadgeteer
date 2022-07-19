@@ -1,6 +1,12 @@
 ---
 - name: Install some packages
   hosts: all
+
+  vars:
+    controller_hostname: "{{ lookup('env', 'HOSTNAME') }}"
+    controller_hostname_domain: "{{ lookup('env', 'HOSTNAME').split('.')[1:] | join('.') }}"
+    controller_domainname: "{{ lookup('env', 'DOMAINNAME') | default(controller_hostname_domain, true) }}"
+
   tasks:
 
 # Wait until host is ready
@@ -14,6 +20,10 @@
    - name: Assign gadget net prefix from env or random default
      set_fact:
        gadget_net_prefix: "{{ lookup('env', 'GADGET_NET_PREFIX') | default(random_net_prefix, true) }}"
+
+   - name: Assign domain
+     set_fact:
+       gadget_net_domain: "{{ lookup('env', 'GADGET_NET_DOMAIN') | default(controller_domainname, true) }}"
 
 # Install bridge-utils for bridging both usb ethernet interfaces
    - name: install bridge-utils
@@ -33,21 +43,16 @@
        name: dnsmasq
        state: present
 
-## TODO consider dynamic network assignment for each host
-#  - name: configure dnsmasq
-#    ansible.builtin.copy:
-#      src: etc/dnsmasq.d/usb.conf
-#      dest: /etc/dnsmasq.d/usb.conf
-
    - name: configure dnsmasq from template
      template:
        src: etc/dnsmasq.d/usb.conf.j2
        dest: /etc/dnsmasq.d/usb.conf
+     register: dnsmasq_configuration
 
 # DEBUG Clone Reflow repo
-   - name: Clone devuan-pi-setup repository
+   - name: Clone devuan-pi-gadgeteer repository
      git:
-       repo: https://github.com/adam-burns/devuan-pi-setup
+       repo: https://github.com/adam-burns/devuan-pi-gadgeteer
        dest: devuan-pi-setup
        version: master
        clone: yes
@@ -119,6 +124,18 @@
      template:
        src: etc/network/interfaces.d/br0.conf.j2
        dest: /etc/network/interfaces.d/br0.conf
+     register: bridge_configuration
+
+   - name: Update the /etc/hosts file with node name
+     lineinfile:
+       path: "/etc/hosts"
+       regexp: ".*\t{{ansible_hostname}}"
+       # line: "{{ ansible_br0.ipv4.address }}\t{{ ansible_hostname }}"
+       line: "{{ gadget_net_prefix }}.1\t{{ ansible_hostname }}"
+       state: present
+       backup: yes
+
+
 
    - name: configure network forwarding
      ansible.builtin.copy:
