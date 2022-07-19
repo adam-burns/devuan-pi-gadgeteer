@@ -58,14 +58,14 @@
 #     delegate_to: localhost
 #     become: no
 
-    - name: Update the /etc/hosts file with node name
-      lineinfile:
-        path: "/etc/hosts"
-        regexp: ".*\t{{ansible_hostname}}"
-        line: "{{ ansible_br0.ipv4.address }}\t{{ ansible_hostname }}"
-        # line: "{{ gadget_net_prefix }}\t{{ ansible_hostname }}"
-        state: present
-        backup: yes
+      #    - name: Update the /etc/hosts file with node name
+      #      lineinfile:
+      #        path: "/etc/hosts"
+      #        regexp: ".*\t{{ansible_hostname}}"
+      #        line: "{{ ansible_br0.ipv4.address }}\t{{ ansible_hostname }}"
+      #        # line: "{{ gadget_net_prefix }}\t{{ ansible_hostname }}"
+      #        state: present
+      #        backup: yes
 #
 # Display results
 #
@@ -75,7 +75,7 @@
 #       - "device links               - {{ ansible_device_links['ids'] | to_nice_json }}"
 #       - "devices                    - {{ ansible_devices | to_json  }}"
 #       - "ansible facts              - {{ ansible_facts | to_json }}"
-        - "gadget_net_prefix          - {{ gadget_net_prefix }}"
+#       - "random gadget_net_prefix   - {{ gadget_net_prefix }}"
 #       - "random                     - {{ 126 | random }}"
         - "Hardware                   - {{ dt_hardware_model.stdout }}"
         - "Architecture               - {{ ansible_architecture }}"
@@ -91,5 +91,5 @@
         - "gadget_net_domain          - {{ gadget_net_domain }}"
         - "ansible_hostname           - {{ ansible_hostname }}"
         - "ansible_br0.ipv4.address   - {{ ansible_br0.ipv4.address}}"
-        - "gadget_net_prefix.1        - '{{ gadget_net_prefix }}.1'"
+#       - "gadget_net_prefix.1        - '{{ gadget_net_prefix }}.1'"
 
