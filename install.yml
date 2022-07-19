@@ -37,13 +37,28 @@
        name: avahi-autoipd
        state: present
 
+# Configure mdns services for ssh/sftp
+   - name: Configure ssh avahi service
+     copy:
+       src: /usr/share/doc/avahi-daemon/examples/ssh.service
+       dest: /etc/avahi/services/
+       remote_src: yes
+     register: avahi_daemon_configuration
+
+   - name: Configure ssh avahi service
+     copy:
+       src: /usr/share/doc/avahi-daemon/examples/sftp-ssh.service
+       dest: /etc/avahi/services/
+       remote_src: yes
+     register: avahi_daemon_configuration
+
 # Install dnsmasq for dhcp over br0 interface
    - name: install dnsmasq
      package:
        name: dnsmasq
        state: present
 
-   - name: configure dnsmasq from template
+   - name: Configure dnsmasq from template
      template:
        src: etc/dnsmasq.d/usb.conf.j2
        dest: /etc/dnsmasq.d/usb.conf
@@ -105,20 +120,16 @@
        line: "libcomposite"
      when: check.found == 0
 
-   - name: configure usb0 network interface
+# Configure USB Network Interfaces
+   - name: Configure usb0 network interface
      ansible.builtin.copy:
        src: etc/network/interfaces.d/usb0.conf
        dest: /etc/network/interfaces.d/usb0.conf
 
-   - name: configure usb1 network interface
+   - name: Configure usb1 network interface
      ansible.builtin.copy:
        src: etc/network/interfaces.d/usb1.conf
        dest: /etc/network/interfaces.d/usb1.conf
-
-#  - name: configure br0 network interface
-#    ansible.builtin.copy:
-#      src: etc/network/interfaces.d/br0.conf
-#      dest: /etc/network/interfaces.d/br0.conf
 
    - name: Create br0 network config from template
      template:
@@ -126,6 +137,7 @@
        dest: /etc/network/interfaces.d/br0.conf
      register: bridge_configuration
 
+# Change /etc/hosts entry
    - name: Update the /etc/hosts file with node name
      lineinfile:
        path: "/etc/hosts"
@@ -135,8 +147,7 @@
        state: present
        backup: yes
 
-
-
+# Configure sysctl for IP forwarding
    - name: configure network forwarding
      ansible.builtin.copy:
        src: etc/sysctl.d/30-forwarding.conf
