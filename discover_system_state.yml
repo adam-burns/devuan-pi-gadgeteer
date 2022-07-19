@@ -1,16 +1,28 @@
 ---
-- name: Install some packages
-  hosts: all
-  tasks:
+- hosts: all
 
-# Wait until host is ready
+  vars:
+    controller_hostname: "{{ lookup('env', 'HOSTNAME') }}"
+    controller_hostname_domain: "{{ lookup('env', 'HOSTNAME').split('.')[1:] | join('.') }}"
+    controller_domainname: "{{ lookup('env', 'DOMAINNAME') | default(controller_hostname_domain, true) }}"
+
+  tasks:
     - name: Wait for {{ ansible_facts['distribution'] }} {{ ansible_facts['distribution_major_version'] }} host {{inventory_hostname}} connection
       wait_for_connection:
 
-- name: Read in host & state details
-  hosts: all
+    - name: Assign random RFC1981 net prefix
+      set_fact:
+        random_net_prefix: "192.168.{{ 128 | random + 127 }}"
 
-  tasks:
+    - name: Assign gadget net prefix from env or random default
+      set_fact:
+        gadget_net_prefix: "{{ lookup('env', 'GADGET_NET_PREFIX') | default(random_net_prefix, true) }}"
+
+    - name: Assign gadget net domain from env or controller default
+      set_fact:
+        gadget_net_domain: "{{ lookup('env', 'GADGET_NET_DOMAIN') | default(controller_domainname, true) }}"
+
+
 #
 # Hardware
 #
@@ -39,20 +51,45 @@
     - name: Check if dwc2 is loaded
       ansible.builtin.shell: "{ { lsmod | grep dwc2 >/dev/null; } && echo 'loaded'; } || echo 'not loaded'"
       register: is_dwc2_loaded
+
+#   - name: Get domain of controller
+#     ansible.builtin.shell: "domainname"
+#     register: controller_domain
+#     delegate_to: localhost
+#     become: no
+
+    - name: Update the /etc/hosts file with node name
+      lineinfile:
+        path: "/etc/hosts"
+        regexp: ".*\t{{ansible_hostname}}"
+        line: "{{ ansible_br0.ipv4.address }}\t{{ ansible_hostname }}"
+        # line: "{{ gadget_net_prefix }}\t{{ ansible_hostname }}"
+        state: present
+        backup: yes
 #
 # Display results
 #
     - name: "Target {{ inventory_hostname }} report"
       debug:
         msg: 
-        - "Hardware             - {{ dt_hardware_model.stdout }}"
-        - "Architecture         - {{ ansible_architecture }}"
-        - "Serial Number        - {{ sys_serial_number.stdout_lines }}"
-        - "OS                   - {{ ansible_distribution }} {{ ansible_distribution_major_version }} {{ ansible_distribution_release }} "
-        - "cmdline modules-load - {{ ansible_cmdline['modules-load'] }}"
-        - "configfs status      - {{ is_configfs_mounted.stdout }}"
-        - "libcomposite module  - {{ is_libcomposite_loaded.stdout }}"
-        - "dwc2 module          - {{ is_dwc2_loaded.stdout }}"
-#       - "ansible facts   - {{ ansible_facts | to_json }}"
-#       - "device links    - {{ ansible_device_links['ids'] | to_nice_json }}"
-#       - "devices         - {{ ansible_devices | to_json  }}"
+#       - "device links               - {{ ansible_device_links['ids'] | to_nice_json }}"
+#       - "devices                    - {{ ansible_devices | to_json  }}"
+#       - "ansible facts              - {{ ansible_facts | to_json }}"
+        - "gadget_net_prefix          - {{ gadget_net_prefix }}"
+#       - "random                     - {{ 126 | random }}"
+        - "Hardware                   - {{ dt_hardware_model.stdout }}"
+        - "Architecture               - {{ ansible_architecture }}"
+        - "Serial Number              - {{ sys_serial_number.stdout_lines }}"
+        - "OS                         - {{ ansible_distribution }} {{ ansible_distribution_major_version }} {{ ansible_distribution_release }} "
+        - "cmdline modules-load       - {{ ansible_cmdline['modules-load'] }}"
+        - "configfs status            - {{ is_configfs_mounted.stdout }}"
+        - "libcomposite module        - {{ is_libcomposite_loaded.stdout }}"
+        - "dwc2 module                - {{ is_dwc2_loaded.stdout }}"
+        - "controller_hostname        - {{ controller_hostname }}"
+        - "controller_domainname      - {{ controller_domainname }}"
+        - "controller_hostname_domain - {{ controller_hostname_domain }}"
+        - "gadget_net_domain          - {{ gadget_net_domain }}"
+        - "ansible_hostname           - {{ ansible_hostname }}"
+        - "ansible_br0.ipv4.address   - {{ ansible_br0.ipv4.address}}"
+        - "gadget_net_prefix.1        - '{{ gadget_net_prefix }}.1'"
+
