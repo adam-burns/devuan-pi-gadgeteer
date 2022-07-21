@@ -1,0 +1,19 @@
+---
+- hosts: all
+
+
+  tasks:
+    - name: Wait for {{ ansible_facts['distribution'] }} {{ ansible_facts['distribution_major_version'] }} host {{inventory_hostname}} connection
+      wait_for_connection:
+
+# Install web interface
+    - name: install htop
+      package:
+        name: htop
+        state: present
+
+# Install web interface
+    - name: install shellinabox
+      package:
+        name: shellinabox
+        state: present
