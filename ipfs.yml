@@ -1,0 +1,87 @@
+---
+- hosts: all
+
+
+  tasks:
+    - name: Wait for {{ ansible_facts['distribution'] }} {{ ansible_facts['distribution_major_version'] }} host {{inventory_hostname}} connection
+      wait_for_connection:
+
+    # install dependencies
+
+    # golang
+    - name: install go compiler
+      package:
+        name: golang
+        state: present
+
+    ## add go path?
+    #- name: Update /etc/profile.d/go.sh
+    #  lineinfile:
+    #    path: "/etc/profile.d/go.sh"
+    #    state: present
+    #    create: yes
+    #    line: "export PATH=$PATH:/usr/local/go/bin"
+
+    # openssl - see https://github.com/ipfs/kubo#openssl
+    - name: install libssl-dev
+      package:
+        name: libssl-dev
+        state: present
+
+    # fuse3
+    - name: install fuse3
+      package:
+        name: fuse3
+        state: present
+
+    #  Clone kubo git repository
+    - name: Clone kubo
+      git:
+        repo: https://github.com/ipfs/kubo
+        dest: src/ipfs/kubo
+        #version: master
+        version: v0.14.0
+        clone: yes
+        update: yes
+
+    #  build kubo
+    - name: Build kubo
+      make:
+        chdir: src/ipfs/kubo
+        target: install
+        # to optimise build for resource constrained hosts, see
+        # https://github.com/ipfs/kubo#system-requirements
+        # currently errors:
+        # /root/go/pkg/mod/github.com/libp2p/go-openssl@v0.0.7/fips.go:31:7: could not determine kind of name for C.FIPS_mode_set
+        #params:
+        #  GOTAGS: openssl
+
+    # TODO tidy build path ... GOPATH?
+    - name: Install kubo
+      copy:
+        src: /root/go/bin/ipfs
+        dest: /usr/local/bin
+        remote_src: yes
+        mode: a+rx
+
+    # initialise ipfs TODO tidy ipfs path ... IPFSPATH?
+    - name: Initialise ipfs
+      ansible.builtin.command: ipfs init
+      args:
+        creates: /root/.ipfs/config
+      register: ipfs_init
+
+    #  Clone ipfs initd script builder git repository
+    - name: Clone ipfs-daemon-initd
+      git:
+        repo: https://github.com/mercurytw/ipfs-daemon-initd
+        dest: src/ipfs/ipfs-daemon-initd
+        version: master
+        clone: yes
+        update: yes
+
+    # Configure & install ipfs init script
+    - name: Install ipfs init script
+      shell: ./install.sh
+      args:
+        chdir: src/ipfs/ipfs-daemon-initd

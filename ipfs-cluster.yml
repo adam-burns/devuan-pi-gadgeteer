@@ -1,0 +1,83 @@
+---
+- hosts: all
+
+
+  tasks:
+    - name: Wait for {{ ansible_facts['distribution'] }} {{ ansible_facts['distribution_major_version'] }} host {{inventory_hostname}} connection
+      wait_for_connection:
+
+    # install dependencies
+
+    # golang
+    - name: install go compiler
+      package:
+        name: golang
+        state: present
+
+    ## add go path?
+    #- name: Update /etc/profile.d/go.sh
+    #  lineinfile:
+    #    path: "/etc/profile.d/go.sh"
+    #    state: present
+    #    create: yes
+    #    line: "export PATH=$PATH:/usr/local/go/bin"
+
+    # openssl - see https://github.com/ipfs/kubo#openssl
+    - name: install libssl-dev
+      package:
+        name: libssl-dev
+        state: present
+
+    # fuse3
+    - name: install fuse3
+      package:
+        name: fuse3
+        state: present
+
+    #  Clone ipfs-cluster git repository
+    - name: Clone ipfs-cluster
+      git:
+        repo: https://github.com/ipfs-cluster/ipfs-cluster.git
+        dest: src/ipfs/ipfs-cluster
+        #version: master
+        version: v1.0.2
+        clone: yes
+        update: yes
+
+    #  build ipfs-cluster
+    - name: Build ipfs-cluster
+      make:
+        chdir: src/ipfs/ipfs-cluster
+        target: install
+
+    # TODO tidy build path ... GOPATH?
+    - name: Install ipfs-cluster-ctl
+      copy:
+        src: /root/go/bin/ipfs-cluster-ctl
+        dest: /usr/local/bin
+        remote_src: yes
+        mode: a+rx
+
+    # TODO tidy build path ... GOPATH?
+    - name: Install ipfs-cluster-follow
+      copy:
+        src: /root/go/bin/ipfs-cluster-follow
+        dest: /usr/local/bin
+        remote_src: yes
+        mode: a+rx
+
+    # TODO tidy build path ... GOPATH?
+    - name: Install ipfs-cluster-service
+      copy:
+        src: /root/go/bin/ipfs-cluster-service
+        dest: /usr/local/bin
+        remote_src: yes
+        mode: a+rx
+
+    # initialise ipfs-cluster TODO tidy ipfs path ... IPFSPATH?
+    - name: Initialise ipfs-cluster
+      ansible.builtin.command: ipfs-cluster init
+      args:
+        creates: /root/.ipfs-cluster/identity.json
+      register: ipfs_cluster_init
+
