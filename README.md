@@ -84,6 +84,7 @@ USB Host functionality has been tested as functional on:
 | Linux Fedora 35| Lenovo Thinkpad P52  | Pi 4      |    Yes      |   Yes     |
 | Linux Fedora 35| Lenovo Thinkpad P52  | Pi Zero 2W|    Yes      |   Yes     |
 | macOS Monterey | MacBook Air M1 2020  | Pi 4      |    Yes      |   Yes     |
+| Devuan 5       | Pi 4                 | Pi Zero 2W|    Yes      |   Yes     |
 | Android 11     | Nokia 7.2            | Pi 4      |    Yes      |   No      |
 
 </br>
@@ -101,7 +102,7 @@ USB Host functionality has been tested as functional on:
 
 ##  📝 Prepare
 
-- Install Devuan Pi on a compatible Raspberry Pi from latest nightly builds for Devuan Pi, available on the [Devuan ARM images site](https://arm-files.devuan.org/RaspberryPi%20Latest%20Builds/). Download & install the correct image for your hardware (Devuan Daedalus release recommended).
+- Install Devuan Pi on a compatible Raspberry Pi from latest nightly builds for Devuan Pi, available on the [Devuan ARM images site](https://arm-files.devuan.org/RaspberryPi%20Latest%20Builds/). Download & install the correct image for your hardware (Devuan 5 Daedalus recommended).
 
 - Configure the freshly installed Devuan Pi with a wireless network (as root):
 
