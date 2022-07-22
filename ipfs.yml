@@ -34,6 +34,13 @@
         name: fuse3
         state: present
 
+    - name: configure fuse3 user_allow_other
+      ansible.builtin.lineinfile:
+        path: /etc/fuse.conf
+        state: present
+        #regexp: '^user_allow_other'
+        line: user_allow_other
+
     #  Clone kubo git repository
     - name: Clone kubo
       git:
@@ -74,7 +81,7 @@
     #  Clone ipfs initd script builder git repository
     - name: Clone ipfs-daemon-initd
       git:
-        repo: https://github.com/mercurytw/ipfs-daemon-initd
+        repo: https://github.com/adam-burns/ipfs-daemon-initd
         dest: src/ipfs/ipfs-daemon-initd
         version: master
         clone: yes
@@ -85,3 +92,10 @@
       shell: ./install.sh
       args:
         chdir: src/ipfs/ipfs-daemon-initd
+
+    - name: hack ipfsd init script to inject ipfs daemon --mount option
+      ansible.builtin.lineinfile:
+        path: /etc/init.d/ipfsd
+        regexp: 'cmd\=\"\$bin_path daemon\"'
+        line: 'cmd="$bin_path daemon --mount"'
+
