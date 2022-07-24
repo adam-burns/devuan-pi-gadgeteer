@@ -93,3 +93,9 @@
       args:
         chdir: src/ipfs/ipfs-daemon-initd
 
+    - name: Configure ipfsd default options
+      ansible.builtin.lineinfile:
+        path: /etc/default/ipfsd
+        create: yes
+        state: present
+        line: 'DAEMON_OPTIONS="--mount"'
