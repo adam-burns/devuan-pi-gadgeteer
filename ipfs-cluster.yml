@@ -74,10 +74,10 @@
         remote_src: yes
         mode: a+rx
 
-    # initialise ipfs-cluster TODO tidy ipfs path ... IPFSPATH?
-    - name: Initialise ipfs-cluster
-      ansible.builtin.command: ipfs-cluster init
-      args:
-        creates: /root/.ipfs-cluster/identity.json
-      register: ipfs_cluster_init
+        #    # initialise ipfs-cluster TODO tidy ipfs path ... IPFSPATH?
+        #    - name: Initialise ipfs-cluster
+        #      ansible.builtin.command: ipfs-cluster init
+        #      args:
+        #        creates: /root/.ipfs-cluster/identity.json
+        #      register: ipfs_cluster_init
 
