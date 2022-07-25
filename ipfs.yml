@@ -89,7 +89,7 @@
 
     # Configure & install ipfs init script
     - name: Install ipfs init script
-      shell: ./install.sh
+      shell: ./install-ipfsd.sh
       args:
         chdir: src/ipfs/ipfs-daemon-initd
 
