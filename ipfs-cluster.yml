@@ -74,6 +74,21 @@
         remote_src: yes
         mode: a+rx
 
+    #  Clone ipfs initd script builder git repository
+    - name: Clone ipfs-daemon-initd
+      git:
+        repo: https://github.com/adam-burns/ipfs-daemon-initd
+        dest: src/ipfs/ipfs-daemon-initd
+        version: WIP-update
+        clone: yes
+        update: yes
+
+    # Configure & install ipfs init script
+    - name: Install ipfs init script
+      shell: ./install-ipfsd.sh
+      args:
+        chdir: src/ipfs/ipfs-daemon-initd
+
         #    # initialise ipfs-cluster TODO tidy ipfs path ... IPFSPATH?
         #    - name: Initialise ipfs-cluster
         #      ansible.builtin.command: ipfs-cluster init
