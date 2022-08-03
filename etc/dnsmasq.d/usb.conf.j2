@@ -3,6 +3,8 @@ bogus-priv
 no-resolv
 server=8.8.8.8
 server=8.8.4.4
+conf-file=/usr/share/dnsmasq-base/trust-anchors.conf
+dnssec
 #local=/{{ gadget_net_domain }}/
 listen-address=::1,127.0.0.1,{{ gadget_net_prefix }}.1
 expand-hosts
